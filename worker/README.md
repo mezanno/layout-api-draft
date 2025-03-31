@@ -21,7 +21,7 @@ docker build -t mock-worker .
 
 Manually run:
 ```bash
-docker run -p 8000:8000 mock-worker
+docker run --rm -it -p 8000:8000 mock-worker
 ```
 
 Test:

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    networks:
+      - app-network
+
+  cache:
+    build:
+      context: cache
+      dockerfile: Dockerfile
+    volumes:
+      - nginx-cache:/var/cache/nginx
+    networks:
+      - app-network
+
+  worker:
+    build:
+      context: worker
+      dockerfile: Dockerfile
+    # ports:
+    #   - "8000:8000"
+    networks:
+      - app-network
+
+volumes:
+  nginx-cache:
+
+networks:
+  app-network:
+    driver: bridge
