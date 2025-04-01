@@ -14,21 +14,34 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# CACHE_URL = "http://cache/gallica"
+# Load the mock json payload
+import json
+with open("mock_data.json") as f:
+    mock_data = json.load(f)
 
 @app.get("/layout")
-async def layout(image_url: str, auto_deskew: bool = False, auto_bg_removal: bool = True, auto_denoise: bool = True, text_x_height_pixels: int = -1):
+async def layout(
+    image_url: str,
+    auto_deskew: bool = False,
+    auto_bg_removal: bool = True,
+    auto_denoise: bool = True,
+    text_x_height_pixels: int = -1,
+    try_connect_cache: bool = False,
+    ):
 
-    # Pass the image URL to the cache server
-    # url = f"{CACHE_URL}?url={image_url}"
+    # Debug output
     print(f"image_url: {image_url}")
 
-    async with httpx.AsyncClient() as client:
-        response = await client.get(image_url, timeout=10.0)
-        if response.status_code == 200:
-            return {"message": "ok", "status_code": response.status_code, "data_len": len(response.content)}
-        else:
-            return {"message": "image server error", "status_code": response.status_code}
+    if try_connect_cache:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(image_url, timeout=10.0)
+            if response.status_code == 200:
+                return {"message": "ok", "status_code": response.status_code, "data_len": len(response.content)}
+            else:
+                return {"message": "image server error", "status_code": response.status_code}
+    
+    return mock_data
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

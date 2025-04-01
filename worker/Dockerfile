@@ -4,8 +4,11 @@ FROM python:3.12-slim
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy app and requirements into the container
-COPY mock_worker.py requirements.txt /app/
+# Copy requirements into the container
+COPY requirements.txt /app/
+
+# Copy app code and data
+COPY mock_worker.py mock_data.json /app/
 
 # Install dependencies from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
