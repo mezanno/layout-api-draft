@@ -1,4 +1,9 @@
 :80 {
+
+    route /favicon.ico {
+        respond "" 204
+    }
+
     route /layout* {
 
         # FIXME only allow image_url pointing to known services.
