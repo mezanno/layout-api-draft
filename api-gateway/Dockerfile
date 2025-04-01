@@ -1,9 +1,18 @@
-FROM nginx:1.19.0-alpine
+# Use the official Caddy image
+FROM caddy:2.9.1
+# FROM ubuntu:24.04
 
-# Copy the "default" configuration file
-COPY ./default.conf /etc/nginx/conf.d/default.conf
+# Copy the Caddy binary to the container
+# COPY caddy /usr/bin/caddy
 
-# Create a volume for the cache
-VOLUME /var/cache/nginx
+# Copy Caddyfile to the container
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# Keep default CMD from base image (start nginx)
+# Copy static files to the container
+COPY site /usr/share/caddy
+
+# Expose the default Caddy port
+EXPOSE 80
+
+# Start the Caddy server
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
