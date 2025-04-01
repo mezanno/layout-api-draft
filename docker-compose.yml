@@ -4,7 +4,7 @@ services:
       context: api-gateway
       dockerfile: Dockerfile
     ports:
-      - "8000:80"
+      - "8200:80"
     networks:
       - app-network
 
@@ -15,7 +15,7 @@ services:
     volumes:
       - nginx-cache:/var/cache/nginx
     ports:
-      - "8080:80"
+      - "8201:80"
     networks:
       - app-network
 
