@@ -26,13 +26,13 @@ async def layout(
     auto_bg_removal: bool = True,
     auto_denoise: bool = True,
     text_x_height_pixels: int = -1,
-    try_connect_cache: bool = False,
+    try_download_image: bool = False,
     ):
 
     # Debug output
     print(f"image_url: {image_url}")
 
-    if try_connect_cache:
+    if try_download_image:
         async with httpx.AsyncClient() as client:
             response = await client.get(image_url, timeout=10.0)
             if response.status_code == 200:
