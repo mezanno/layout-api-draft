@@ -19,14 +19,24 @@ services:
     networks:
       - app-network
 
+  worker-wrapper:
+    build:
+      context: worker-wrapper
+      dockerfile: Dockerfile
+    ports:
+      - "8202:8000"
+    networks:
+      - app-network
   worker:
     build:
       context: worker
       dockerfile: Dockerfile
+    ports:
+      - "8203:8000"
     networks:
       - app-network
-
 volumes:
+
   nginx-cache:
 
 networks:
